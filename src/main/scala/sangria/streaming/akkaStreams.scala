@@ -1,10 +1,12 @@
 package sangria.streaming
 
 import scala.language.higherKinds
-
 import akka.NotUsed
-import akka.stream.Materializer
+import akka.stream.ActorAttributes.SupervisionStrategy
+import akka.stream.{Attributes, Materializer, Supervision}
+import akka.stream.impl.fusing.GraphStages.SimpleLinearGraphStage
 import akka.stream.scaladsl.{Merge, Sink, Source}
+import akka.stream.stage.{GraphStageLogic, InHandler, OutHandler}
 
 import scala.concurrent.Future
 
@@ -29,7 +31,7 @@ object akkaStreams {
 
     def onComplete[Ctx, Res](result: AkkaSource[Res])(op: ⇒ Unit) =
       result
-        .map {x ⇒ op; x}
+        .via(OnComplete(() ⇒ op))
         .recover {case e ⇒ op; throw e}
         .asInstanceOf[AkkaSource[Res]]
 
@@ -56,4 +58,31 @@ object akkaStreams {
       type StreamSource[X] = AkkaSource[X]
       val subscriptionStream = new AkkaStreamsSubscriptionStream
     }
+
+  private final case class OnComplete[T](op: () ⇒ Unit) extends SimpleLinearGraphStage[T] {
+    override def toString: String = "OnComplete"
+
+    override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =
+      new GraphStageLogic(shape) with OutHandler with InHandler {
+        def decider = inheritedAttributes.get[SupervisionStrategy].map(_.decider).getOrElse(Supervision.stoppingDecider)
+
+        override def onPush(): Unit = {
+          push(out, grab(in))
+        }
+
+        override def onPull(): Unit = pull(in)
+
+        override def onDownstreamFinish() = {
+          op()
+          super.onDownstreamFinish()
+        }
+
+        override def onUpstreamFinish() = {
+          op()
+          super.onUpstreamFinish()
+        }
+
+        setHandlers(in, out, this)
+      }
+  }
 }
