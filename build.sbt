@@ -1,6 +1,6 @@
 name := "sangria-akka-streams"
 organization := "org.sangria-graphql"
-version := "0.1.0-SNAPSHOT"
+version := "0.1.0"
 
 description := "Sangria akka-streams integration"
 homepage := Some(url("http://sangria-graphql.org"))
@@ -10,7 +10,7 @@ scalaVersion := "2.11.8"
 scalacOptions ++= Seq("-deprecation", "-feature")
 
 libraryDependencies ++= Seq(
-  "org.sangria-graphql" %% "sangria-streaming-api" % "0.1.0-SNAPSHOT",
+  "org.sangria-graphql" %% "sangria-streaming-api" % "0.1.0",
   "com.typesafe.akka" %% "akka-stream" % "2.4.11",
   "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 )
