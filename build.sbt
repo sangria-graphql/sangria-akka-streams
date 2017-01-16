@@ -1,6 +1,6 @@
 name := "sangria-akka-streams"
 organization := "org.sangria-graphql"
-version := "1.0.0"
+version := "1.0.1-SNAPSHOT"
 
 description := "Sangria akka-streams integration"
 homepage := Some(url("http://sangria-graphql.org"))
