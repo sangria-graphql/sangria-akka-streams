@@ -1,4 +1,4 @@
-package sangria.streaming
+ package sangria.streaming
 
 import java.util.concurrent.atomic.AtomicInteger
 
