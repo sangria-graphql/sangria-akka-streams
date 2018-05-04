@@ -2,16 +2,22 @@ package sangria.streaming
 
 import scala.language.higherKinds
 import akka.NotUsed
+import akka.event.Logging
 import akka.stream.ActorAttributes.SupervisionStrategy
-import akka.stream.{Attributes, Materializer, Supervision}
-import akka.stream.impl.fusing.GraphStages.SimpleLinearGraphStage
+import akka.stream._
 import akka.stream.scaladsl.{Merge, Sink, Source}
-import akka.stream.stage.{GraphStageLogic, InHandler, OutHandler}
+import akka.stream.stage.{GraphStage, GraphStageLogic, InHandler, OutHandler}
 
 import scala.concurrent.Future
 
 object akkaStreams {
   type AkkaSource[+T] = Source[T, NotUsed]
+
+  abstract class SimpleLinearGraphStage[T] extends GraphStage[FlowShape[T, T]] {
+    val in = Inlet[T](Logging.simpleName(this) + ".in")
+    val out = Outlet[T](Logging.simpleName(this) + ".out")
+    override val shape = FlowShape(in, out)
+  }
 
   class AkkaStreamsSubscriptionStream(implicit materializer: Materializer) extends SubscriptionStream[AkkaSource] {
     def supported[T[_]](other: SubscriptionStream[T]) = other.isInstanceOf[AkkaStreamsSubscriptionStream]
