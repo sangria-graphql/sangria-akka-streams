@@ -1,3 +1,7 @@
+## v1.0.1 (2018-05-11)
+
+* Updated akka-streams to v2.5.12
+
 ## v1.0.0 (2017-01-16)
 
 * 1.0 Release
