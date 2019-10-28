@@ -1,13 +1,13 @@
 name := "sangria-akka-streams"
 organization := "org.sangria-graphql"
-version := "1.0.2-SNAPSHOT"
+mimaPreviousArtifacts := Set("org.sangria-graphql" %% "sangria-akka-streams" % "1.0.1")
 
 description := "Sangria akka-streams integration"
 homepage := Some(url("http://sangria-graphql.org"))
 licenses := Seq("Apache License, ASL Version 2.0" → url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.12.6"
-crossScalaVersions := Seq("2.11.11", "2.12.6")
+scalaVersion := "2.13.0"
+crossScalaVersions := Seq("2.11.12", "2.12.10", scalaVersion.value)
 
 scalacOptions ++= Seq("-deprecation", "-feature")
 
@@ -18,9 +18,11 @@ libraryDependencies ++= Seq(
 
 // Publishing
 
+releaseCrossBuild := true
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
 publishMavenStyle := true
 publishArtifact in Test := false
-pomIncludeRepository := (_ ⇒ false)
+pomIncludeRepository := (_ => false)
 publishTo := Some(
   if (version.value.trim.endsWith("SNAPSHOT"))
     "snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
@@ -31,12 +33,12 @@ startYear := Some(2016)
 organizationHomepage := Some(url("https://github.com/sangria-graphql"))
 developers := Developer("OlegIlyenko", "Oleg Ilyenko", "", url("https://github.com/OlegIlyenko")) :: Nil
 scmInfo := Some(ScmInfo(
-  browseUrl = url("https://github.com/sangria-graphql/sangria-akka-streams.git"),
-  connection = "scm:git:git@github.com:sangria-graphql/sangria-akka-streams.git"
+  browseUrl = url("https://github.com/sangria-graphql-org/sangria-akka-streams.git"),
+  connection = "scm:git:git@github.com:sangria-graphql-org/sangria-akka-streams.git"
 ))
 
 // nice *magenta* prompt!
 
-shellPrompt in ThisBuild := { state ⇒
+shellPrompt in ThisBuild := { state =>
   scala.Console.MAGENTA + Project.extract(state).currentRef.project + "> " + scala.Console.RESET
 }

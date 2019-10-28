@@ -36,7 +36,7 @@ class AkkStreamsIntegrationSpec extends WordSpec with Matchers {
     }
 
     "mapFuture" in {
-      res(impl.mapFuture(source(1, 2, 10))(x ⇒ Future.successful(x + 1))) should be (List(2, 3, 11))
+      res(impl.mapFuture(source(1, 2, 10))(x => Future.successful(x + 1))) should be (List(2, 3, 11))
     }
 
     "first" in {
@@ -63,7 +63,7 @@ class AkkStreamsIntegrationSpec extends WordSpec with Matchers {
     }
 
     "onComplete handles failure" in {
-      val s = source(1, 2, 3) map { i ⇒
+      val s = source(1, 2, 3) map { i =>
         if (i == 2) throw new IllegalStateException("foo")
         else i
       }
@@ -79,16 +79,16 @@ class AkkStreamsIntegrationSpec extends WordSpec with Matchers {
     }
 
     "flatMapFuture" in {
-      res(impl.flatMapFuture(Future.successful(1))(i ⇒ source(i.toString, (i + 1).toString))) should be (List("1", "2"))
+      res(impl.flatMapFuture(Future.successful(1))(i => source(i.toString, (i + 1).toString))) should be (List("1", "2"))
     }
 
     "recover" in {
-      val obs = source(1, 2, 3, 4) map { i ⇒
+      val obs = source(1, 2, 3, 4) map { i =>
         if (i == 3) throw new IllegalStateException("foo")
         else i
       }
 
-      res(impl.recover(obs)(_ ⇒ 100)) should be (List(1, 2, 100))
+      res(impl.recover(obs)(_ => 100)) should be (List(1, 2, 100))
     }
 
     "merge" in {
@@ -139,10 +139,10 @@ class AkkStreamsIntegrationSpec extends WordSpec with Matchers {
   }
 
   def source[T](elems: T*): Source[T, NotUsed] =
-    Source.fromIterator(() ⇒ Iterator(elems: _*))
+    Source.fromIterator(() => Iterator(elems: _*))
 
   def res[T](s: Source[T, NotUsed]) =
-    Await.result(s.runFold(List.empty[T]){case (acc, e) ⇒ acc :+ e}, 2 seconds)
+    Await.result(s.runFold(List.empty[T]){case (acc, e) => acc :+ e}, 2 seconds)
 
   def res[T](f: Future[T]) =
     Await.result(f, 2 seconds)
