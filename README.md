@@ -9,7 +9,7 @@
 SBT Configuration:
 
 ```scala
-libraryDependencies += "org.sangria-graphql" %% "sangria-akka-streams" % "1.0.1"
+libraryDependencies += "org.sangria-graphql" %% "sangria-akka-streams" % "1.0.2"
 ```
 
 ## License

@@ -1,3 +1,15 @@
+## v1.0.2 (2019-10-28)
+
+* scala 2.13 (#10) @yanns
+* sbt 1.3.3 (#9) @yanns
+* Update akka-stream to 2.5.26 (#1) @scala-steward
+* Update sbt-coveralls to 1.2.7 (#5) @scala-steward
+* Update sangria-streaming-api to 1.0.1 (#2) @scala-steward
+* Update scalatest to 3.0.8 (#4) @scala-steward
+* Update sbt-scoverage to 1.6.0 (#6) @scala-steward
+* use open jdk to fix travis builds (#8) @yanns
+* automate release notes (#7) @yanns
+
 ## v1.0.1 (2018-05-11)
 
 * Updated akka-streams to v2.5.12
