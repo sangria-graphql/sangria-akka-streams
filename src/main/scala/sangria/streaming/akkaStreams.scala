@@ -22,26 +22,26 @@ object akkaStreams {
   class AkkaStreamsSubscriptionStream(implicit materializer: Materializer) extends SubscriptionStream[AkkaSource] {
     def supported[T[_]](other: SubscriptionStream[T]) = other.isInstanceOf[AkkaStreamsSubscriptionStream]
 
-    def map[A, B](source: AkkaSource[A])(fn: A ⇒ B) = source.map(fn)
+    def map[A, B](source: AkkaSource[A])(fn: A => B) = source.map(fn)
 
     def singleFuture[T](value: Future[T]) = Source.fromFuture(value)
 
     def single[T](value: T) = Source.single(value)
 
-    def mapFuture[A, B](source: AkkaSource[A])(fn: A ⇒ Future[B]) =
+    def mapFuture[A, B](source: AkkaSource[A])(fn: A => Future[B]) =
       source.mapAsync(1)(fn)
 
     def first[T](s: AkkaSource[T]) = s.runWith(Sink.head)
 
     def failed[T](e: Throwable) = Source.failed(e).asInstanceOf[AkkaSource[T]]
 
-    def onComplete[Ctx, Res](result: AkkaSource[Res])(op: ⇒ Unit) =
+    def onComplete[Ctx, Res](result: AkkaSource[Res])(op: => Unit) =
       result
-        .via(OnComplete(() ⇒ op))
-        .recover {case e ⇒ op; throw e}
+        .via(OnComplete(() => op))
+        .recover {case e => op; throw e}
         .asInstanceOf[AkkaSource[Res]]
 
-    def flatMapFuture[Ctx, Res, T](future: Future[T])(resultFn: T ⇒ AkkaSource[Res]) =
+    def flatMapFuture[Ctx, Res, T](future: Future[T])(resultFn: T => AkkaSource[Res]) =
       Source.fromFuture(future).flatMapMerge(1, resultFn)
 
     def merge[T](streams: Vector[AkkaSource[T]]) = {
@@ -53,8 +53,8 @@ object akkaStreams {
         throw new IllegalStateException("No streams produced!")
     }
 
-    def recover[T](stream: AkkaSource[T])(fn: Throwable ⇒ T) =
-      stream recover {case e ⇒ fn(e)}
+    def recover[T](stream: AkkaSource[T])(fn: Throwable => T) =
+      stream recover {case e => fn(e)}
   }
 
   implicit def akkaSubscriptionStream(implicit materializer: Materializer): SubscriptionStream[AkkaSource] = new AkkaStreamsSubscriptionStream
@@ -65,7 +65,7 @@ object akkaStreams {
       val subscriptionStream = new AkkaStreamsSubscriptionStream
     }
 
-  private final case class OnComplete[T](op: () ⇒ Unit) extends SimpleLinearGraphStage[T] {
+  private final case class OnComplete[T](op: () => Unit) extends SimpleLinearGraphStage[T] {
     override def toString: String = "OnComplete"
 
     override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =
