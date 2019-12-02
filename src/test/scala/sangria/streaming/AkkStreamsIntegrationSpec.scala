@@ -6,13 +6,14 @@ import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Sink, Source}
-import org.scalatest.{Matchers, WordSpec}
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 import scala.language.postfixOps
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class AkkStreamsIntegrationSpec extends WordSpec with Matchers {
+class AkkStreamsIntegrationSpec extends AnyWordSpec with Matchers {
   implicit val system = ActorSystem("test")
   implicit val mat = ActorMaterializer()
 
