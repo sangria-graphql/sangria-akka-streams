@@ -13,7 +13,7 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 
 libraryDependencies ++= Seq(
   "org.sangria-graphql" %% "sangria-streaming-api" % "1.0.1",
-  "com.typesafe.akka" %% "akka-stream" % "2.5.26",
+  "com.typesafe.akka" %% "akka-stream" % "2.5.27",
   "org.scalatest" %% "scalatest" % "3.1.0" % Test)
 
 // Publishing
