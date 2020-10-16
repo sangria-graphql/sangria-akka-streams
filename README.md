@@ -1,6 +1,6 @@
 [Sangria](http://sangria-graphql.org/) [akka-streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html) integration.
 
-[![Build Status](https://travis-ci.org/sangria-graphql-org/sangria-akka-streams.svg?branch=master)](https://travis-ci.org/sangria-graphql-org/sangria-akka-streams)
+[![Build Status](https://travis-ci.org/sangria-graphql/sangria-akka-streams.svg?branch=master)](https://travis-ci.org/sangria-graphql/sangria-akka-streams)
 [![Coverage Status](http://coveralls.io/repos/sangria-graphql/sangria-akka-streams/badge.svg?branch=master&service=github)](http://coveralls.io/github/sangria-graphql/sangria-akka-streams?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.sangria-graphql/sangria-akka-streams_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.sangria-graphql/sangria-akka-streams_2.11)
 [![License](http://img.shields.io/:license-Apache%202-brightgreen.svg)](http://www.apache.org/licenses/LICENSE-2.0.txt)

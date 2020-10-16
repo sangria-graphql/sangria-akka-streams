@@ -14,7 +14,7 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 libraryDependencies ++= Seq(
   "org.sangria-graphql" %% "sangria-streaming-api" % "1.0.1",
   "com.typesafe.akka" %% "akka-stream" % "2.5.32",
-  "org.scalatest" %% "scalatest" % "3.1.1" % Test)
+  "org.scalatest" %% "scalatest" % "3.1.4" % Test)
 
 // Publishing
 
@@ -33,8 +33,8 @@ startYear := Some(2016)
 organizationHomepage := Some(url("https://github.com/sangria-graphql"))
 developers := Developer("OlegIlyenko", "Oleg Ilyenko", "", url("https://github.com/OlegIlyenko")) :: Nil
 scmInfo := Some(ScmInfo(
-  browseUrl = url("https://github.com/sangria-graphql-org/sangria-akka-streams.git"),
-  connection = "scm:git:git@github.com:sangria-graphql-org/sangria-akka-streams.git"
+  browseUrl = url("https://github.com/sangria-graphql/sangria-akka-streams.git"),
+  connection = "scm:git:git@github.com:sangria-graphql/sangria-akka-streams.git"
 ))
 
 // nice *magenta* prompt!
