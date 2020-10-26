@@ -11,6 +11,19 @@ crossScalaVersions := Seq("2.11.12", "2.12.10", scalaVersion.value)
 
 scalacOptions ++= Seq("-deprecation", "-feature")
 
+scalacOptions ++= {
+  if (scalaVersion.value startsWith "2.11")
+    Seq("-target:jvm-1.7")
+  else
+    Seq("-target:jvm-1.8")
+}
+javacOptions ++= {
+  if (scalaVersion.value startsWith "2.11")
+    Seq("-source", "7", "-target", "7")
+  else
+    Seq("-source", "8", "-target", "8")
+}
+
 libraryDependencies ++= Seq(
   "org.sangria-graphql" %% "sangria-streaming-api" % "1.0.1",
   "com.typesafe.akka" %% "akka-stream" % "2.5.32",
