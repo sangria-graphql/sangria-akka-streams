@@ -25,7 +25,7 @@ javacOptions ++= {
 }
 
 libraryDependencies ++= Seq(
-  "org.sangria-graphql" %% "sangria-streaming-api" % "1.0.1",
+  "org.sangria-graphql" %% "sangria-streaming-api" % "1.0.2",
   "com.typesafe.akka" %% "akka-stream" % "2.5.32",
   "org.scalatest" %% "scalatest" % "3.2.3" % Test)
 
