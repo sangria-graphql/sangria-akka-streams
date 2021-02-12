@@ -19,8 +19,10 @@ object akkaStreams {
     override val shape = FlowShape(in, out)
   }
 
-  class AkkaStreamsSubscriptionStream(implicit materializer: Materializer) extends SubscriptionStream[AkkaSource] {
-    def supported[T[_]](other: SubscriptionStream[T]) = other.isInstanceOf[AkkaStreamsSubscriptionStream]
+  class AkkaStreamsSubscriptionStream(implicit materializer: Materializer)
+      extends SubscriptionStream[AkkaSource] {
+    def supported[T[_]](other: SubscriptionStream[T]) =
+      other.isInstanceOf[AkkaStreamsSubscriptionStream]
 
     def map[A, B](source: AkkaSource[A])(fn: A => B) = source.map(fn)
 
@@ -38,28 +40,32 @@ object akkaStreams {
     def onComplete[Ctx, Res](result: AkkaSource[Res])(op: => Unit) =
       result
         .via(OnComplete(() => op))
-        .recover {case e => op; throw e}
+        .recover { case e => op; throw e }
         .asInstanceOf[AkkaSource[Res]]
 
     def flatMapFuture[Ctx, Res, T](future: Future[T])(resultFn: T => AkkaSource[Res]) =
       Source.fromFuture(future).flatMapMerge(1, resultFn)
 
-    def merge[T](streams: Vector[AkkaSource[T]]) = {
+    def merge[T](streams: Vector[AkkaSource[T]]) =
       if (streams.size > 1)
         Source.combine(streams(0), streams(1), streams.drop(2): _*)(Merge(_))
       else if (streams.nonEmpty)
         streams.head
       else
         throw new IllegalStateException("No streams produced!")
-    }
 
     def recover[T](stream: AkkaSource[T])(fn: Throwable => T) =
-      stream recover {case e => fn(e)}
+      stream.recover { case e => fn(e) }
   }
 
-  implicit def akkaSubscriptionStream(implicit materializer: Materializer): SubscriptionStream[AkkaSource] = new AkkaStreamsSubscriptionStream
+  implicit def akkaSubscriptionStream(implicit
+      materializer: Materializer): SubscriptionStream[AkkaSource] =
+    new AkkaStreamsSubscriptionStream
 
-  implicit def akkaStreamIsValidSubscriptionStream[A[_, _], Ctx, Res, Out](implicit materializer: Materializer, ev1: ValidOutStreamType[Res, Out]): SubscriptionStreamLike[Source[A[Ctx, Res], NotUsed], A, Ctx, Res, Out] =
+  implicit def akkaStreamIsValidSubscriptionStream[A[_, _], Ctx, Res, Out](implicit
+      materializer: Materializer,
+      ev1: ValidOutStreamType[Res, Out])
+      : SubscriptionStreamLike[Source[A[Ctx, Res], NotUsed], A, Ctx, Res, Out] =
     new SubscriptionStreamLike[Source[A[Ctx, Res], NotUsed], A, Ctx, Res, Out] {
       type StreamSource[X] = AkkaSource[X]
       val subscriptionStream = new AkkaStreamsSubscriptionStream
@@ -70,11 +76,13 @@ object akkaStreams {
 
     override def createLogic(inheritedAttributes: Attributes): GraphStageLogic =
       new GraphStageLogic(shape) with OutHandler with InHandler {
-        def decider = inheritedAttributes.get[SupervisionStrategy].map(_.decider).getOrElse(Supervision.stoppingDecider)
+        def decider = inheritedAttributes
+          .get[SupervisionStrategy]
+          .map(_.decider)
+          .getOrElse(Supervision.stoppingDecider)
 
-        override def onPush(): Unit = {
+        override def onPush(): Unit =
           push(out, grab(in))
-        }
 
         override def onPull(): Unit = pull(in)
 
