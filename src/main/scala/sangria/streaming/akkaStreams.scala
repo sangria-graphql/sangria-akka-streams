@@ -26,7 +26,7 @@ object akkaStreams {
 
     def map[A, B](source: AkkaSource[A])(fn: A => B) = source.map(fn)
 
-    def singleFuture[T](value: Future[T]) = Source.fromFuture(value)
+    def singleFuture[T](value: Future[T]) = Source.future(value)
 
     def single[T](value: T) = Source.single(value)
 
@@ -44,7 +44,7 @@ object akkaStreams {
         .asInstanceOf[AkkaSource[Res]]
 
     def flatMapFuture[Ctx, Res, T](future: Future[T])(resultFn: T => AkkaSource[Res]) =
-      Source.fromFuture(future).flatMapMerge(1, resultFn)
+      Source.future(future).flatMapMerge(1, resultFn)
 
     def merge[T](streams: Vector[AkkaSource[T]]) =
       if (streams.size > 1)
@@ -86,9 +86,9 @@ object akkaStreams {
 
         override def onPull(): Unit = pull(in)
 
-        override def onDownstreamFinish() = {
+        override def onDownstreamFinish(cause: Throwable) = {
           op()
-          super.onDownstreamFinish()
+          super.onDownstreamFinish(cause)
         }
 
         override def onUpstreamFinish() = {
