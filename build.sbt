@@ -23,7 +23,7 @@ javacOptions ++= Seq("-source", "8", "-target", "8")
 libraryDependencies ++= Seq(
   "org.sangria-graphql" %% "sangria-streaming-api" % "1.0.2",
   "com.typesafe.akka" %% "akka-stream" % "2.6.14",
-  "org.scalatest" %% "scalatest" % "3.2.7" % Test)
+  "org.scalatest" %% "scalatest" % "3.2.8" % Test)
 
 // Publishing
 releaseCrossBuild := true
