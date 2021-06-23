@@ -15,7 +15,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class AkkStreamsIntegrationSpec extends AnyWordSpec with Matchers {
   implicit val system = ActorSystem("test")
-  implicit val mat = ActorMaterializer()
+  implicit val mat = ActorMaterializer
 
   val impl: SubscriptionStream[akkaStreams.AkkaSource] =
     new akkaStreams.AkkaStreamsSubscriptionStream
