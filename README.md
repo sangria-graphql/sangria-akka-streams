@@ -1,4 +1,4 @@
-[Sangria](http://sangria-graphql.org/) [akka-streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html) integration.
+[Sangria](https://sangria-graphql.github.io/) [akka-streams](http://doc.akka.io/docs/akka/current/scala/stream/index.html) integration.
 
 ![Continuous Integration](https://github.com/sangria-graphql/sangria-akka-streams/workflows/Continuous%20Integration/badge.svg)
 [![Coverage Status](http://coveralls.io/repos/sangria-graphql/sangria-akka-streams/badge.svg?branch=master&service=github)](http://coveralls.io/github/sangria-graphql/sangria-akka-streams?branch=master)
