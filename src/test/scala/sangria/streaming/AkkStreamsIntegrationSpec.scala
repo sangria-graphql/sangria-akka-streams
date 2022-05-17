@@ -103,13 +103,13 @@ class AkkStreamsIntegrationSpec extends AnyWordSpec with Matchers {
 
       val result = res(impl.merge(Vector(obs1, obs2, obs3)))
 
-      result should (have(size(6))
+      result should have(size(6))
         .and(contain(1))
         .and(contain(2))
         .and(contain(3))
         .and(contain(4))
         .and(contain(100))
-        .and(contain(200)))
+        .and(contain(200))
     }
 
     "merge 2" in {
@@ -118,11 +118,11 @@ class AkkStreamsIntegrationSpec extends AnyWordSpec with Matchers {
 
       val result = res(impl.merge(Vector(obs1, obs2)))
 
-      result should (have(size(4))
+      result should have(size(4))
         .and(contain(1))
         .and(contain(2))
         .and(contain(100))
-        .and(contain(200)))
+        .and(contain(200))
     }
 
     "merge 1" in {
@@ -130,7 +130,7 @@ class AkkStreamsIntegrationSpec extends AnyWordSpec with Matchers {
 
       val result = res(impl.merge(Vector(obs1)))
 
-      result should (have(size(2)).and(contain(1)).and(contain(2)))
+      result should have(size(2)).and(contain(1)).and(contain(2))
     }
 
     "merge throws exception on empty" in {
