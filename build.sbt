@@ -21,7 +21,7 @@ javacOptions ++= Seq("-source", "8", "-target", "8")
 libraryDependencies ++= Seq(
   "org.sangria-graphql" %% "sangria-streaming-api" % "1.0.3",
   "com.typesafe.akka" %% "akka-stream" % "2.6.19",
-  "org.scalatest" %% "scalatest" % "3.2.12" % Test)
+  "org.scalatest" %% "scalatest" % "3.2.13" % Test)
 
 // Release
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
