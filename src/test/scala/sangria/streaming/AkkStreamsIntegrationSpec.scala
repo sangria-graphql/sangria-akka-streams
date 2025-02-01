@@ -60,7 +60,7 @@ class AkkStreamsIntegrationSpec extends AnyWordSpec with Matchers {
 
       val updated = impl.onComplete(source(1, 2, 3))(inc())
 
-      Await.ready(updated.runWith(Sink.last), 2 seconds)
+      Await.ready(updated.runWith(Sink.last), 2.seconds)
 
       count.get() should be(1)
     }
@@ -76,15 +76,14 @@ class AkkStreamsIntegrationSpec extends AnyWordSpec with Matchers {
 
       val updated = impl.onComplete(s)(inc())
 
-      Await.ready(updated.runWith(Sink.last), 2 seconds)
+      Await.ready(updated.runWith(Sink.last), 2.seconds)
 
       count.get() should be(1)
     }
 
     "flatMapFuture" in {
-      res(
-        impl.flatMapFuture(Future.successful(1))(i =>
-          source(i.toString, (i + 1).toString))) should be(List("1", "2"))
+      res(impl.flatMapFuture(Future.successful(1))(i =>
+        source(i.toString, (i + 1).toString))) should be(List("1", "2"))
     }
 
     "recover" in {
@@ -142,8 +141,8 @@ class AkkStreamsIntegrationSpec extends AnyWordSpec with Matchers {
     Source.fromIterator(() => Iterator(elems: _*))
 
   def res[T](s: Source[T, NotUsed]) =
-    Await.result(s.runFold(List.empty[T]) { case (acc, e) => acc :+ e }, 2 seconds)
+    Await.result(s.runFold(List.empty[T]) { case (acc, e) => acc :+ e }, 2.seconds)
 
   def res[T](f: Future[T]) =
-    Await.result(f, 2 seconds)
+    Await.result(f, 2.seconds)
 }
